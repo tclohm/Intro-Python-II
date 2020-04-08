@@ -2,10 +2,12 @@
 from room import Room
 from player import Player
 
+color = { "bold": "\033[1m", "green": "\033[92m", "purple": "\033[95m", "cyan": "\003[96m", "end": "\033[0m"}
+
 # Declare all the rooms
 
 room = {
-    'outside':  Room("Outside Cave Entrance",
+    'outside':  Room("Cave Entrance",
                      "North of you, the cave mount beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
@@ -41,6 +43,34 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+print("💻 ------- Welcome to the one and only adventure game ------- 🎮")
+def start():
+	print("💬 Before we get started, you'll be using your keyboard to interact with the game. All of your inputs" + color["bold"] + " except " + color["end"] + "for your" + color["bold"] + " name " + color["end"] + "should be one letter")
+	understand = input("❓" + color["purple"] + " Would you like to continue? (Y/n): " + color["end"])
+	if understand == "y" or understand == "Y" or understand == "":
+		print("Alright! Let's go!")
+		name = input("❓" + color["purple"] + " Please enter your name: " + color["end"])
+		player_one = Player(name, room["outside"])
+
+		print(f"\n{player_one.current_room}")
+
+		player_choices = { 'n': player_one.current_room.n_to, 'e': player_one.current_room.e_to, 's': player_one.current_room.s_to, 'w': player_one.current_room.w_to }
+
+		print("❓" + " Which way will you go?\n")
+		direction = input(color["purple"] + " n : north, e : east, s : south, w: west\n" + color["end"])
+
+		if direction not in player_choices:
+			print(f"{direction} is not an option. 🤦‍♂️")
+		else:
+			player_one.current_room = player_choices[direction]
+			print(player_one.current_room)
+	elif understand == "n" or understand == "N" or understand == "no" or understand == "NO":
+		print(f"\nExiting the game\nAlright! Have a good day!\n")
+	else:
+		print(f"`{understand}` isn't one of the options....\nExiting the game\nGoodbye\n")
+
+
+start()
 # Write a loop that:
 #
 # * Prints the current room name

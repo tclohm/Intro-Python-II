@@ -74,7 +74,7 @@ class Room:
 	w_to = property(get_w_to, set_w_to)
 
 	def __str__(self):
-		return f"You approach the `{self.name}`\nYou look around and see `{self.description}`\n"
+		return f"You approach the `{self.name}`\nYou look around and see {self.description}\n"
 
 	def __repr__(self):
 		return f"Room: {self.name} \nDescription: {self.description}"

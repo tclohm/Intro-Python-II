@@ -1,4 +1,5 @@
 # Modules
+import os
 from room import Room
 from player import Player
 
@@ -52,28 +53,30 @@ def start():
 		print("Alright! Let's go!")
 		name = input("❓" + color["purple"] + " Please enter your name: " + color["end"])
 		player_one = Player(name, room["outside"])
-		player_choices = { 'n': player_one.current_room.n_to, 'e': player_one.current_room.e_to, 's': player_one.current_room.s_to, 'w': player_one.current_room.w_to }
 
 		while True:
+			player_choices = { 'n': player_one.current_room.n_to, 'e': player_one.current_room.e_to, 's': player_one.current_room.s_to, 'w': player_one.current_room.w_to }
 			inputs = {"n": "north", "e": "east", "s": "south", "w": "west", "q": "quit"}
 
 			print(f"\n{player_one.current_room}")
 			print("❓" + " Which way will you go?\n")
-			print(inputs)
-			command = input(f"\033[1m {[((key),value) for key, value in inputs.items()]} \033[0m")
+			input_list = [(key, value) for key, value in inputs.items()]
+			command = input(f"\033[1m {input_list} \033[0m: ")
 
 			if command == "q":
 				print("quiting the game...goodbye")
 				break
 			elif command not in player_choices:
+				os.system('cls' if os.name == 'nt' else 'clear')
 				print(f"🙅‍♀️ {command} is not an option. 🤦‍♂️")
 				pass
 			elif player_choices[command] == None:
-				print("\n✋Unfortunately that will lead your to an nothing. Pick another way")
+				os.system('cls' if os.name == 'nt' else 'clear')
+				print(f"\n✋Unfortunately, \033[1m{inputs[command]}\033[0m will lead you to an nothing. Pick another way\n\n")
 				pass
 			else:
+				os.system('cls' if os.name == 'nt' else 'clear')
 				player_one.current_room = player_choices[command]
-				inputs = inputs_original
 				pass
 
 	elif understand == "n" or understand == "N" or understand == "no" or understand == "NO":

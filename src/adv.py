@@ -55,10 +55,12 @@ def start():
 		player_choices = { 'n': player_one.current_room.n_to, 'e': player_one.current_room.e_to, 's': player_one.current_room.s_to, 'w': player_one.current_room.w_to }
 
 		while True:
+			inputs = {"n": "north", "e": "east", "s": "south", "w": "west", "q": "quit"}
 
 			print(f"\n{player_one.current_room}")
 			print("❓" + " Which way will you go?\n")
-			command = input(color["purple"] + "💻 (n) north, (e) east, (s) south, (w) west, (q) quit game: " + color["end"])
+			print(inputs)
+			command = input(f"\033[1m {[((key),value) for key, value in inputs.items()]} \033[0m")
 
 			if command == "q":
 				print("quiting the game...goodbye")
@@ -71,6 +73,7 @@ def start():
 				pass
 			else:
 				player_one.current_room = player_choices[command]
+				inputs = inputs_original
 				pass
 
 	elif understand == "n" or understand == "N" or understand == "no" or understand == "NO":

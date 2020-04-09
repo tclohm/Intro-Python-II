@@ -80,7 +80,7 @@ def start():
 			" Please enter your name: " + color["end"])
 
 		player_one = Player(name, room["outside"])
-
+		clear()
 		while True:
 			player_choices = { 
 				'n': player_one.current_room.n_to, 
@@ -99,6 +99,7 @@ def start():
 			print("============================================")
 			print(wrapper.fill(f"{player_one.current_room}"))
 			print("============================================")
+			print(f"\n{player_one}")
 			print("\n❓" + " What do you want to do?\n")
 
 			input_list = {key for key in move.items()}
@@ -107,19 +108,19 @@ def start():
 			command = input(f"🎮 \033[1m {input_string[1:-1]} \033[0m: ")
 
 			if command == "q":
-				os.system('cls' if os.name == 'nt' else 'clear')
+				clear()
 				print("I hope you had fun!\nQuiting the game...goodbye")
 				break
 			elif command not in player_choices:
-				os.system('cls' if os.name == 'nt' else 'clear')
+				clear()
 				print(f"🙅‍♀️ {command} is not an option. 🤦‍♂️")
 				
 			elif player_choices[command] == None:
-				os.system('cls' if os.name == 'nt' else 'clear')
+				clear()
 				print(f"""\n✋✋✋ Unfortunately, {attr('bold')}{move[command].upper()}{attr('reset')} will lead you to nothing. Pick another way ✋✋✋\n""")
 				
 			else:
-				os.system('cls' if os.name == 'nt' else 'clear')
+				clear()
 				print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 				print(f"You moved \033[1m{move[command]}\033[0m leaving the {player_one.current_room.name}")
 				print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n")

@@ -1,5 +1,6 @@
 # Modules
 import os
+from colored import fg, bg, attr
 from room import Room
 from player import Player
 
@@ -8,20 +9,20 @@ color = { "bold": "\033[1m", "green": "\033[92m", "purple": "\033[95m", "cyan": 
 # Declare all the rooms
 
 room = {
-    'outside':  Room("Cave Entrance",
-                     "\033[1mNorth\033[0m of you, the cave mount beckons"),
+    'outside':  Room("%s Cave Entrance %s" % (bg('indian_red_1a'), attr('reset')),
+                     """\033[1mNorth\033[0m of you, the cave mount beckons"""),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the \033[1msouth\033[0m`. Dusty
+    'foyer':    Room("%s Foyer %s" % (bg('dark_cyan'), attr('reset')), """Dim light filters in from the \033[1msouth\033[0m`. Dusty
 passages run \033[1mnorth\033[0m and \033[1meast\033[0m."""),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
+    'overlook': Room("%s Grand Overlook %s" % (bg('dark_turquoise'), attr('reset')), """A steep cliff appears before you, falling
 into the darkness. Ahead to the \033[1mnorth\033[0m, a light flickers in
 the distance, but there is no way across the chasm."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from \033[1mwest\033[0m
+    'narrow':   Room("%s Narrow Passage %s" % (bg('dark_red_2'), attr('reset')), """The narrow passage bends here from \033[1mwest\033[0m
 to \033[1mnorth\033[0m. The smell of gold permeates the air."""),
 
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
+    'treasure': Room("🏆%s Treasure Chamber %s🏆" % (bg('gold_3a'), attr('reset')), """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the \033[1msouth\033[0m."""),
 }
@@ -44,8 +45,9 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-print("💻 ------- Welcome to the one and only adventure game ------- 🎮")
+print("🤖 ------- Welcome to the one and only adventure game ------- 👾")
 def start():
+	os.system('cls' if os.name == 'nt' else 'clear')
 	print("💬 Before we get started, you'll be using your keyboard to interact with the game. All of your inputs" + color["bold"] + " except " + color["end"] + "for your" + color["bold"] + " name " + color["end"] + "should be one letter")
 	understand = input("❓" + color["purple"] + " Would you like to continue? (Y/n): " + color["end"])
 
@@ -60,11 +62,13 @@ def start():
 
 			print(f"\n{player_one.current_room}")
 			print("❓" + " Which way will you go?\n")
-			input_list = [(key, value) for key, value in inputs.items()]
-			command = input(f"\033[1m {input_list} \033[0m: ")
+			input_list = {key for key in inputs.items()}
+			input_string = str(input_list)
+			command = input(f"🎮 \033[1m {input_string[1:-1]} \033[0m: ")
 
 			if command == "q":
-				print("quiting the game...goodbye")
+				os.system('cls' if os.name == 'nt' else 'clear')
+				print("I hope you had fun!\nQuiting the game...goodbye")
 				break
 			elif command not in player_choices:
 				os.system('cls' if os.name == 'nt' else 'clear')
@@ -72,7 +76,7 @@ def start():
 				pass
 			elif player_choices[command] == None:
 				os.system('cls' if os.name == 'nt' else 'clear')
-				print(f"\n✋Unfortunately, \033[1m{inputs[command]}\033[0m will lead you to an nothing. Pick another way\n\n")
+				print(f"\n✋Unfortunately, \033[1m{inputs[command]}\033[0m will lead you to nothing. \033[1mPick another way\033[0m\n\n")
 				pass
 			else:
 				os.system('cls' if os.name == 'nt' else 'clear')

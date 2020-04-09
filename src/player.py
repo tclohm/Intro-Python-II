@@ -18,15 +18,17 @@ class Player:
 		else:
 			self.inventory = inventory
 
-	def pickup(self, item):
+	def add(self, item):
 		if len(self.inventory) <= 2:
-			self.current_room.items.remove(item)
+			print("from player", self.__current_room.items)
 			self.inventory.append(item)
+			self.__current_room.items.remove(item)
+			
 		else:
 			raise Exception(f"You are carrying too many things. Please drop an item from your inventory to pick up {item}")
 
 
-	def drop(self, item):
+	def remove(self, item):
 		self.inventory.remove(item)
 		self.current_room.add(item)
 

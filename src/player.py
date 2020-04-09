@@ -5,13 +5,30 @@
 	Player {
 		name: String
 		current_room: Room { get set }
+		inventory: [Item]
 	}
 """
 
 class Player:
-	def __init__(self, name, current_room):
+	def __init__(self, name, current_room, inventory=None):
 		self.name = name
 		self.__current_room = current_room
+		if inventory is None:
+			self.inventory = []
+		else:
+			self.inventory = inventory
+
+	def pickup(self, item):
+		if len(self.inventory) <= 2:
+			self.current_room.items.remove(item)
+			self.inventory.append(item)
+		else:
+			raise Exception(f"You are carrying too many things. Please drop an item from your inventory to pick up {item}")
+
+
+	def drop(self, item):
+		self.inventory.remove(item)
+		self.current_room.add(item)
 
 	def set_current_room(self, current_room):
 		if not current_room:
@@ -24,3 +41,5 @@ class Player:
 
 	current_room = property(get_current_room, set_current_room)
 
+	def __str__(self):
+		return f"current room: {self.current_room} | {self.name} inventory: {self.inventory}"

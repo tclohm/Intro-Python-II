@@ -87,17 +87,9 @@ def start():
 
 			player_movement = { 
 				'move n': player_one.current_room.n_to,
-				'move north': player_one.current_room.n_to,
-				'mv n': player_one.current_room.n_to,
-				'move e': player_one.current_room.e_to, 
-				'move east': player_one.current_room.e_to,
-				'mv e': player_one.current_room.e_to,
+				'move e': player_one.current_room.e_to,
 				'move s': player_one.current_room.s_to,
-				'move south': player_one.current_room.s_to,
-				'mv s': player_one.current_room.s_to,
 				'move w': player_one.current_room.w_to,
-				'move west': player_one.current_room.w_to,
-				'mv w': player_one.current_room.w_to
 			}
 
 			move = {
@@ -137,17 +129,15 @@ def start():
 				for item in player_one.current_room.items:
 					if command[5:] == item.name:
 						player_one.add(item)
-					else:
-						print(f"{item.name} {item.description} doesn't seem to be in {player_one.current_room}")
-
+				print(f"{command[5:]} is not in the room")
 
 			elif command[:4] == ("drop"):
 				clear()
 				for item in player_one.inventory:
 					if command[5:] == item.name:
+						print(f"You've dropped {item} to your inventory")
 						player_one.remove(item)
-					else:
-						print(f"{item.name} {item.description} doesn't seem to be in your inventory")
+				print(f"{command[5:]} is not in your inventory")
 
 			elif command not in player_movement:
 				clear()

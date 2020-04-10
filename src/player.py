@@ -19,12 +19,13 @@ class Player:
 			self.inventory = inventory
 
 	def add(self, item):
-		if len(self.inventory) <= 2:
+		if len(self.inventory) < 2:
+			print(f"You've added {item} to your inventory")
 			self.inventory.append(item)
 			self.__current_room.items.remove(item)
-			
 		else:
-			raise Exception(f"You are carrying too many things. Please drop an item from your inventory to pick up {item}")
+			print("You're encumbered! You can't carry anymore")
+			print(f"Please remove one of your items if you want to carry {item}\n")
 
 
 	def remove(self, item):

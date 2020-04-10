@@ -44,4 +44,4 @@ class Player:
 	current_room = property(get_current_room, set_current_room)
 
 	def __str__(self):
-		return "%s inventory: %s" % (self.name + "'s" if self.name[-1] != "s" else self.name + "'", [item.description for item in self.inventory])
+		return "%s inventory: %s" % (self.name + "'s", [item.description for item in self.inventory])

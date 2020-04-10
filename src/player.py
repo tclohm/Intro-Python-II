@@ -20,7 +20,6 @@ class Player:
 
 	def add(self, item):
 		if len(self.inventory) <= 2:
-			print("from player", self.__current_room.items)
 			self.inventory.append(item)
 			self.__current_room.items.remove(item)
 			
@@ -30,7 +29,7 @@ class Player:
 
 	def remove(self, item):
 		self.inventory.remove(item)
-		self.current_room.add(item)
+		self.__current_room.add(item)
 
 	def set_current_room(self, current_room):
 		if not current_room:
@@ -44,4 +43,4 @@ class Player:
 	current_room = property(get_current_room, set_current_room)
 
 	def __str__(self):
-		return "%s inventory: %s" % (self.name + "'s" if self.name[-1] != "s" else self.name + "'", self.inventory)
+		return "%s inventory: %s" % (self.name + "'s" if self.name[-1] != "s" else self.name + "'", [item.description for item in self.inventory])

@@ -10,13 +10,13 @@ wrapper = textwrap.TextWrapper()
 color = { "bold": "\033[1m", "green": "\033[92m", "purple": "\033[95m", "cyan": "\003[96m", "end": "\033[0m"}
 
 # Declare items
-flashlight = Item("🔦", "flashlight")
-hat = Item("🧢", "hat")
-note = Item("📝", "note")
-skull = Item("💀", "skull")
-money = Item("💵", "money")
-toy = Item("🪀", "toy")
-coconut = Item("🥥", "coconut")
+flashlight = Item("flashlight", "🔦")
+hat = Item("hat", "🧢")
+note = Item("note", "📝")
+skull = Item("skull", "💀")
+money = Item("money", "💵")
+toy = Item("toy", "🪀")
+coconut = Item("coconut", "🥥")
 
 # Declare all the rooms
 
@@ -82,18 +82,22 @@ def start():
 		player_one = Player(name, room["outside"])
 		clear()
 		while True:
-			room_items = [item.description for item in player_one.current_room.items]
-			player_items = [item.description for item in player_one.inventory]
+			room_items_str = [item.description for item in player_one.current_room.items]
+			player_items_str = [item.description for item in player_one.inventory]
 
 			player_movement = { 
 				'move n': player_one.current_room.n_to,
 				'move north': player_one.current_room.n_to,
+				'mv n': player_one.current_room.n_to,
 				'move e': player_one.current_room.e_to, 
 				'move east': player_one.current_room.e_to,
+				'mv e': player_one.current_room.e_to,
 				'move s': player_one.current_room.s_to,
 				'move south': player_one.current_room.s_to,
+				'mv s': player_one.current_room.s_to,
 				'move w': player_one.current_room.w_to,
-				'move west': player_one.current_room.n_to
+				'move west': player_one.current_room.w_to,
+				'mv w': player_one.current_room.w_to
 			}
 
 			move = {
@@ -103,10 +107,10 @@ def start():
 				"w": "west",
 				"quit": "quit"
 			}
-			
 
 			wrapper.break_on_hyphens = True
 			wrapper.drop_whitespace = True
+
 			
 			print("============================================")
 			print(wrapper.fill(f"{player_one.current_room}"))
@@ -121,7 +125,7 @@ def start():
 			input_list = [key for key in move.keys()]
 			input_string = str(input_list)
 
-			command = input(f"🎮 move: \033[1m {input_string} \033[0m" + f"\n🎮 take: {room_items}, \n🎮 drop: {player_items}\n🎮:")
+			command = input(f"move: \033[1m{input_string}\033[0m" + f"\ntake: {room_items_str}, \ndrop: {player_items_str}\n🎮  : ")
 
 			if command == "quit" or command == "q":
 				clear()
@@ -130,25 +134,33 @@ def start():
 
 			elif command[:4] == ("take"):
 				clear()
-				player_one.add(hat)
+				for item in player_one.current_room.items:
+					if command[5:] == item.name:
+						player_one.add(item)
+					else:
+						print(f"{item.name} {item.description} doesn't seem to be in {player_one.current_room}")
+
 
 			elif command[:4] == ("drop"):
 				clear()
-				player_one.remove(hat)
+				for item in player_one.inventory:
+					if command[5:] == item.name:
+						player_one.remove(item)
+					else:
+						print(f"{item.name} {item.description} doesn't seem to be in your inventory")
 
 			elif command not in player_movement:
 				clear()
-				print(command[:4])
 				print(f"🙅‍♀️🙅‍♀️🙅‍♀️ {attr('bold')}{command.upper()}{attr('reset')} is not an option. 🤦‍♂️🤦‍♂️🤦‍♂️")
 				
 			elif player_movement[command] == None:
 				clear()
-				print(f"""\n✋✋✋ Unfortunately, {attr('bold')}{move[command].upper()}{attr('reset')} will lead you to nothing. Pick another way ✋✋✋\n""")
+				print(f"""\n✋✋✋ Unfortunately, {attr('bold')}{move[command[-1]].upper()}{attr('reset')} will lead you to nothing. Pick another way ✋✋✋\n""")
 				
 			else:
 				clear()
 				print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-				print(f"You moved \033[1m{move[command]}\033[0m leaving the {player_one.current_room.name}")
+				print(f"You moved \033[1m{move[command[-1]]}\033[0m leaving the {player_one.current_room.name}")
 				print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n")
 				player_one.current_room = player_movement[command]
 				
